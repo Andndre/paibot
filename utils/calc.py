@@ -1,25 +1,37 @@
 import re
 
-def findnth(s, m, n):
-    parts= s.split(m, n+1)
-    if len(parts)<=n+1:
-        return -1
-    return len(s)-len(parts[-1])-len(m)
+# FUNC: helper
+def findnth(string : str, target : str, nth : int) -> str:
+    parts= string.split(target, nth+1)
+    if len(parts)<=nth+1:
+      return -1
+    return len(string)-len(parts[-1])-len(target)
 
 # FUNC: main
-def calc_(mth):
-  # if mth.count('(') == 0: return eval(mth)
-  if re.match(r'^[^0-9*+\-/()\s]*$', mth) != None:
-    return 'Accepts only numbers and symbols `+ - * x : / ( )`'
-  if mth.count('(') != mth.count(')'):
-    opcl = "opening" if mth.count("(") > mth.count(")") else "closing"
+def calc_(mth : str) -> str:
+  if re.search(r'[^0-9+\-*/:()Xx^\s]', mth):
+    return 'Accepts only numbers and symbols `+ - * x : / ( ) ^`'
+  op = mth.count('(')
+  cl = mth.count(')')
+  if op != cl:
+    opcl = "opening" if op > cl else "closing"
     return f'There are too many {opcl} brackets somewhere'
-  mth = calc_1(mth)
-  return calc_2(mth)
+  return str(eval(validate(mth)))
 
-# FUNC: step 1
-def calc_1(mth):
-  
+# FUNC: step1
+def validate(mth : str) -> str:
+  mth = (
+    mth
+    .replace('++', '+')
+    .replace('-+', '-')
+    .replace('+-', '-')
+    .replace('--', '+')
+    .replace('^', '**')
+    .replace('x', '*')
+    .replace('X', '*')
+    .replace(':', '/')
+  )
+
   # add missing * before ( or after )
   j = 0
   operators = ['+','-','*','/']
@@ -44,44 +56,3 @@ def calc_1(mth):
       mth = mth[:i+1] + '*' + mth[i+1:]
     j+=1
   return mth
-
-# FUNC: step 2
-def calc_2(mth : str):
-  
-  # Calculate
-
-  # this variable will store all mth inside a brackets, 
-  # then computed by this function again (if it has bracket pair)
-  # recursively until the braces is gone
-  tmp = ''
-  final = ''
-  unclosed = 0
-  got_brace = False
-  for n in mth:
-    if n == '(':
-      if got_brace:
-        tmp += '('
-      got_brace = True
-      unclosed += 1
-      continue
-    if n == ')':
-      unclosed -= 1
-      if got_brace:
-        if unclosed == 0:
-          expanded = calc_2(tmp)
-          final += expanded
-          got_brace = False
-          tmp = ''
-        else:
-          tmp += ')'
-      continue
-    if got_brace:
-      tmp += n
-    else:
-      final += n
-  
-  # print('calculating', final)
-
-  # after the braces is gone, we finally can 
-  # evaluate the result using eval function
-  return str(eval(final))

@@ -1,8 +1,8 @@
 import asyncio
-import datetime
 import re
+import traceback
 
-from discord import colour
+from config import embeds_
 from discord.colour import Colour
 from discord.embeds import Embed
 from discord.ext import commands
@@ -11,34 +11,28 @@ from discord.ext.commands.context import Context
 from discord.message import Message
 from utils.calc import calc_
 from utils.mquiz import generate_quiz
-from config import embeds_
+
 
 class MathCommands(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   @commands.command(name='calc')
   async def calc(self, ctx: context.Context, *args):
-    arg = (''.join(args)).replace('x', '*').replace(':', '/').replace(' ', '')
-
+    arg = (''.join(args))
     result = ''
-    err = False
     try:
       result = calc_(arg)
-      if re.match(r'[a-zA-Z]', result) != None:
+      if re.search(r'[a-zA-Z]', result):
         await ctx.reply(embed=embeds_.error_embed(result))
-        err = True
         return
-    except:
-      await ctx.reply(embed=embeds_.error_embed('Something is wrong with your input, please try to enter the operator and parentheses correctly'))
-      return
-    finally:
-      if err: return
-      em = Embed(timestamp=datetime.datetime.utcnow())
-      em.add_field(name='Input: ', value=' '.join(arg.split()), inline=False)
-      em.add_field(name='Output:',value=result, inline=False)
-      em.set_footer(text=f'requested by @{ctx.author.name}')
+      em = Embed()
+      em.add_field(name='Result:',value=result, inline=False)
       em.colour = Colour.blurple()
       await ctx.reply(embed=em)
+    except Exception as e:
+      traceback.print_exc()
+      await ctx.reply(embed=embeds_.error_embed(f'Something is wrong with your input, please try to enter the operator and parentheses correctly\n\n"{str(e)}"'))
+      return
   
   @commands.command(name='mquiz')
   async def mquiz(self, ctx: Context):
@@ -55,12 +49,16 @@ f'''
 '''
 ```
 '''
-      , colour=colour.Colour.blurple()))
+      , colour=Colour.blurple()))
     
     def check(m : Message):
-      return m.content in ['a','A','b','B','c','C','d','D'] and m.channel == ctx.channel and m.author == ctx.author
+      return (
+        m.content.lower().strip() in ['a','b','c','d'] 
+          and m.channel == ctx.channel 
+          and m.author == ctx.author
+        )
     try:
-      m : Message = await self.bot.wait_for("message", check = check, timeout = 60)
+      m : Message = await self.bot.wait_for('message', check = check, timeout = 60)
       if m.content.lower() == ans:
         await m.reply('Congratulations, your answer is correct!')
       else:
