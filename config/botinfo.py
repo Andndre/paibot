@@ -5,23 +5,23 @@ prefix = '_'
 #   'example'
 # ]
 cmds = {
-  f'{prefix}help': [
+  f'help': [
     'list all my commands',
     '_help'
     ],
-  f'{prefix}help <command>' : [
+  f'help <command>' : [
     'show more information about a spesific command',
     '_help ar'
     ],
-  f'{prefix}calc <math expression>': [
+  f'calc': [
     'basic calculator',
     '_calc (1+1)+1*0-(3+5)'
     ],
-  f'{prefix}hi': [
+  f'hi': [
     'greet me',
     '_hi'
     ],
-  f'{prefix}mquiz': [
+  f'mquiz': [
     'generate a random math quiz',
     '_mquiz'
     ]
