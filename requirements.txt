@@ -1,1 +1,3 @@
 discord.py
+discord-py-slash-command.py
+discord-py-interactions.py
