@@ -1,6 +1,7 @@
 import random
 
 from utils.calc import calc_
+ 
 
 def generate_quiz():
   ops = [' + ',' - ',' x ',' : ']

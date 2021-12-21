@@ -12,7 +12,6 @@ from discord.message import Message
 from utils.calc import calc_
 from utils.mquiz import generate_quiz
 
-
 class MathCommands(commands.Cog):
   def __init__(self, bot):
     self.bot = bot

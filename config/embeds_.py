@@ -4,6 +4,7 @@ from discord.colour import Colour
 from config.botinfo import *
 
 
+
 def list_all_commands():
   em = embeds.Embed(title='Commands', description=f'All my commands\n\n')
   for k in cmds.keys():

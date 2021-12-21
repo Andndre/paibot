@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord.ext.commands.context import Context
 from discord.member import Member
 
+
 class OtherCommands(commands.Cog):
   def __init__(self, bot):
     self.bot = bot

@@ -1,14 +1,12 @@
 import re
 from typing import Any, Tuple
 
-# FUNC: helper
 def findnth(string : str, target : str, nth : int) -> str:
     parts= string.split(target, nth+1)
     if len(parts)<=nth+1:
       return -1
     return len(string)-len(parts[-1])-len(target)
 
-# FUNC: main
 def calc_(mth : str) -> Tuple[Any, bool]:
   if re.search(r'[^0-9+\-*/:()Xx^\s]', mth):
     return 'Accepts only numbers and symbols `+ - * x : / ( ) ^`', True
@@ -19,7 +17,6 @@ def calc_(mth : str) -> Tuple[Any, bool]:
     return f'There are too many {opcl} brackets somewhere', True
   return str(eval(validate(mth))), False
 
-# FUNC: step1
 def validate(mth : str) -> str:
   mth = (
     mth
