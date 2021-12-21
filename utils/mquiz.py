@@ -1,6 +1,6 @@
 import random
 
-from utils.calc import calc_
+import calc
  
 
 def generate_quiz():
@@ -12,7 +12,7 @@ def generate_quiz():
   result += f'{nums[0]}'
   for n in range(1, len(nums)):
     result += f'{random.choice(ops)}{nums[n]}'
-  answer, error = calc_(result.replace(' x ','*').replace(' : ','/'))
+  answer, error = calc.calc_(result.replace(' x ','*').replace(' : ','/'))
   answer = float(answer)
   choices = [answer]
   for n in range(4):
@@ -27,4 +27,4 @@ def generate_quiz():
       idx = i
       break
 
-  return result + '\n\n' + '\n'.join([chr(n) + '. ' + '{:.2f}'.format(choices[n-97], 2) for n in range(97, 101)]), chr(idx+97)
+  return result + '\n\n' + '\n'.join([chr(n) + '. ' + '{:.2f}'.format(choices[n-97], 2) for n in range(97, 102)]), chr(idx+97)
