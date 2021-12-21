@@ -1,9 +1,8 @@
 import os
 
 from discord import Intents
-from discord import Embed, activity
+from discord import activity
 from discord.ext import commands
-from dotenv import load_dotenv
 
 import config.botinfo as inf
 
