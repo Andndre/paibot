@@ -11,7 +11,8 @@ def generate_quiz():
   result += f'{nums[0]}'
   for n in range(1, len(nums)):
     result += f'{random.choice(ops)}{nums[n]}'
-  answer = float(calc_(result.replace(' x ','*').replace(' : ','/')))
+  answer, error = calc_(result.replace(' x ','*').replace(' : ','/'))
+  answer = float(answer)
   choices = [answer]
   for n in range(4):
     c = answer + random.randrange(-25, 25)

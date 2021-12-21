@@ -12,13 +12,14 @@ class HelpCommand(commands.Cog):
     self.bot = bot
 
   @commands.command(name='help')
-  async def help(self, ctx: Context, cmd=None):
-    if cmd == None:
+  async def help(self, ctx: Context, *args):
+    cmd = ' '.join(args)
+    if cmd.strip() == '':
       if ctx.guild:
         message :Message = await ctx.reply(embed=embeds_.list_all_commands())
-        await message.add_reaction(emoji='📜')
+        await message.add_reaction(emoji='<:more:920566095864279090>')
         def check(r : Reaction, u: User):
-          return str(r.emoji) == '📜' and u == ctx.author
+          return str(r.emoji) == '<:more:920566095864279090>' and u == ctx.author
         try:
           reaction, user = await self.bot.wait_for('reaction_add', check=check, timeout=60)
           await message.edit(embed=embeds_.list_all_commands_more())

@@ -21,8 +21,8 @@ class MathCommands(commands.Cog):
     arg = (''.join(args))
     result = ''
     try:
-      result = calc_(arg)
-      if re.search(r'[a-zA-Z]', result):
+      result, err = calc_(arg)
+      if err:
         await ctx.reply(embed=embeds_.error_embed(result))
         return
       em = Embed()

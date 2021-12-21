@@ -1,4 +1,5 @@
 import re
+from typing import Any, Tuple
 
 # FUNC: helper
 def findnth(string : str, target : str, nth : int) -> str:
@@ -8,15 +9,15 @@ def findnth(string : str, target : str, nth : int) -> str:
     return len(string)-len(parts[-1])-len(target)
 
 # FUNC: main
-def calc_(mth : str) -> str:
+def calc_(mth : str) -> Tuple[Any, bool]:
   if re.search(r'[^0-9+\-*/:()Xx^\s]', mth):
-    return 'Accepts only numbers and symbols `+ - * x : / ( ) ^`'
+    return 'Accepts only numbers and symbols `+ - * x : / ( ) ^`', True
   op = mth.count('(')
   cl = mth.count(')')
   if op != cl:
     opcl = "opening" if op > cl else "closing"
-    return f'There are too many {opcl} brackets somewhere'
-  return str(eval(validate(mth)))
+    return f'There are too many {opcl} brackets somewhere', True
+  return str(eval(validate(mth))), False
 
 # FUNC: step1
 def validate(mth : str) -> str:

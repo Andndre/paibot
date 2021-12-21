@@ -9,7 +9,7 @@ def list_all_commands():
   for k in cmds.keys():
     em.description += f'> **{k}**\n'
   em.description += '\nUse `help <command>` to show information about a specific command\n'
-  em.description += '\nReact with 📜 to show more information'
+  em.description += '\nReact with <:more:920566095864279090> to show more information'
   em.colour = Colour.blurple()
   return em
 
