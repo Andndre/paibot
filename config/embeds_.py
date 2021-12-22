@@ -4,7 +4,6 @@ from discord.colour import Colour
 from config.botinfo import *
 
 
-
 def list_all_commands():
   em = embeds.Embed(title='Commands', description=f'All my commands\n\n')
   for k in cmds.keys():
@@ -17,14 +16,16 @@ def list_all_commands():
 def list_all_commands_more():
   em = embeds.Embed(title='Commands', description=f'All my commands')
   for k,v in cmds.items():
-    em.add_field(name=k, value=f'```\n{v[0]}\n```', inline=False)
+    em.add_field(name=k, value=f'```\n{v[1]}\n```', inline=False)
   em.colour = Colour.blurple()
   return em
 
 def help_command(cmd):
   em = embeds.Embed(title=f'Command: {cmd}') 
-  em.add_field(name='description:', value=f'```\n{cmds[cmd][0]}\n```', inline=False)
-  em.add_field(name='example:', value=f'```\n{cmds[cmd][1]}\n```',inline=False)
+  if cmds[cmd][1] != '':
+    em.add_field(name='aliases:', value=f'```\n{cmds[cmd][0]}\n```',inline=False)  
+  em.add_field(name='description:', value=f'```\n{cmds[cmd][1]}\n```', inline=False)
+  em.add_field(name='example:', value=f'```\n{cmds[cmd][2]}\n```',inline=False)
   em.colour = Colour.blurple()
   return em
 

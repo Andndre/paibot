@@ -1,16 +1,57 @@
-from discord import embeds
+import asyncio
+from random import randint
+from discord import embeds, user
 from discord.ext import commands
 from discord.ext.commands.context import Context
 from discord.member import Member
+from discord.message import Message
+import traceback
 
+from config.embeds_ import error_embed
 
 class OtherCommands(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-  @commands.command(name='hi')
-  async def hello(self, ctx: Context):
+  @commands.command(aliases=['hello'])
+  async def hi(self, ctx: Context):
     author : Member = ctx.author
     await ctx.reply(f'Hello to you too {author.mention}👋')
+  
+  @commands.command(aliases=['rock_paper_scissors'])
+  async def rps(self, ctx: Context):
+    message = await ctx.reply('rock/paper/scissors')
+
+    def check(m: Message):
+      return m.author == ctx.author and m.content.lower() in ['rock', 'paper', 'scissors']
+    try:
+      msg_ : Message = await self.bot.wait_for('message', check = check, timeout=60)
+      bot_input = ['rock', 'paper', 'scissors'][randint(0, 2)]
+
+      user_input = msg_.content
+
+      msg = ''
+      if user_input == 'scissors':
+        if bot_input == 'paper':
+          msg = 'You win!'
+        elif bot_input == 'rock':
+          msg = 'You lose!'
+      elif user_input == 'paper':
+        if bot_input == 'scissors':
+          msg = 'You lose!'
+        elif bot_input == 'rock':
+          msg = 'You win!'
+      elif user_input == 'rock':
+        if bot_input == 'paper':
+          msg = 'You lose!'
+        elif bot_input == 'scissors':
+          msg = 'You win!'
+      if msg == '':
+        msg = 'draw!'
+      await ctx.send(bot_input + '\n' + msg)
+    except asyncio.TimeoutError:
+      pass
+    except Exception as e:
+      await ctx.send(embed=error_embed(str(e) + '\n\n' + traceback.format_exc()))
 
 def setup(bot : commands.Bot):
   bot.add_cog(OtherCommands(bot))

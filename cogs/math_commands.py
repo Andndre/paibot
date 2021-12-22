@@ -15,7 +15,7 @@ from utils.mquiz import generate_quiz
 class MathCommands(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-  @commands.command(name='calc')
+  @commands.command(aliases=['calculator'])
   async def calc(self, ctx: context.Context, *args):
     arg = (''.join(args))
     result = ''
@@ -33,7 +33,7 @@ class MathCommands(commands.Cog):
       await ctx.reply(embed=embeds_.error_embed(f'Something is wrong with your input, please try to enter the operator and parentheses correctly\n\n"{str(e)}"'))
       return
   
-  @commands.command(name='mquiz')
+  @commands.command(aliases=['math_quiz'])
   async def mquiz(self, ctx: Context):
     quiz, ans = generate_quiz()
     message = await ctx.reply(
