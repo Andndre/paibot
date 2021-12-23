@@ -19,10 +19,10 @@ class OtherCommands(commands.Cog):
   
   @commands.command(aliases=['rock_paper_scissors'])
   async def rps(self, ctx: Context):
-    message = await ctx.reply('rock/paper/scissors')
+    message = await ctx.reply('rock(r)/paper(p)/scissors(s)')
 
     def check(m: Message):
-      return m.author == ctx.author and m.content.lower() in ['rock', 'paper', 'scissors']
+      return m.author == ctx.author and m.content.lower() in ['rock', 'r', 'paper', 'p', 'scissors', 's']
     try:
       msg_ : Message = await self.bot.wait_for('message', check = check, timeout=60)
       bot_input = ['rock', 'paper', 'scissors'][randint(0, 2)]
@@ -30,17 +30,17 @@ class OtherCommands(commands.Cog):
       user_input = msg_.content
 
       msg = ''
-      if user_input == 'scissors':
+      if user_input == 'scissors' or user_input == 's':
         if bot_input == 'paper':
           msg = 'You win!'
         elif bot_input == 'rock':
           msg = 'You lose!'
-      elif user_input == 'paper':
+      elif user_input == 'paper' or user_input == 'p':
         if bot_input == 'scissors':
           msg = 'You lose!'
         elif bot_input == 'rock':
           msg = 'You win!'
-      elif user_input == 'rock':
+      elif user_input == 'rock' or user_input == 'r':
         if bot_input == 'paper':
           msg = 'You lose!'
         elif bot_input == 'scissors':
