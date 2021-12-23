@@ -22,15 +22,27 @@ def list_all_commands_more():
 
 def help_command(cmd):
   em = embeds.Embed(title=f'Command: {cmd}') 
-  if cmds[cmd][1] != '':
-    em.add_field(name='aliases:', value=f'```\n{cmds[cmd][0]}\n```',inline=False)  
   em.add_field(name='description:', value=f'```\n{cmds[cmd][1]}\n```', inline=False)
-  em.add_field(name='example:', value=f'```\n{cmds[cmd][2]}\n```',inline=False)
+  if cmds[cmd][0] != '':
+    em.add_field(name='aliases:', value=f'```\n{cmds[cmd][0]}\n```')
+  em.add_field(name='usage:', value=f'```\n{cmds[cmd][2]}\n```',inline=True)
   em.colour = Colour.blurple()
   return em
 
 def command_not_found_embed(cmd):
-  return embeds.Embed(title='Command not found', description=f'There is no command called {cmd}\n\nuse `{prefix}help` to list all my commands!', colour=Colour.red())
+  return embeds.Embed(title='Command not found', description=f'There is no command called {cmd}\n\nuse `_help` to list all my commands!', colour=Colour.red())
 
 def error_embed(err):
   return embeds.Embed(title='Error', description=f'```\n{err}\n```', colour=Colour.red())
+
+def bot_info(guilds):
+  embed =embeds.Embed()
+  embed.set_thumbnail(url='https://user-images.githubusercontent.com/81848639/147162613-dfa58c95-a0c8-4cdf-84a8-7d4c4eb4ab0a.jpg')
+  embed.title = 'Bot Info'
+  embed.add_field(name='Created', value='Saturday, December 11, 2021 21:30:45', inline=False)
+  embed.add_field(name='Author', value='<@695390633505849424>', inline=True)
+  embed.add_field(name='Invite link', value='[invite me!](https://discord.com/api/oauth2/authorize?client_id=919216307826741269&permissions=137439397952&scope=bot%20applications.commands)', inline=True)
+  embed.add_field(name='Servers', value=f'{guilds} servers', inline=False)
+  embed.set_footer(text='Use _help for usage!')
+  embed.colour = Colour.blurple()
+  return embed

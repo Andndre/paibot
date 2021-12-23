@@ -1,12 +1,13 @@
 import asyncio
 
 from config import botinfo, embeds_
+from discord import embeds
+from discord.colour import Colour
 from discord.abc import User
 from discord.ext import commands
 from discord.ext.commands.context import Context
 from discord.message import Message
 from discord.reaction import Reaction
-
 
 class HelpCommand(commands.Cog):
   def __init__(self, bot):
@@ -36,6 +37,10 @@ class HelpCommand(commands.Cog):
         await ctx.reply(embed=embeds_.help_command(n))
         return
     await ctx.reply(embed=embeds_.command_not_found_embed(cmd))
+  @commands.command(aliases=['about'])
+  async def botinfo(self, ctx: Context):
+    embed = embeds_.bot_info(len(self.bot.guilds))
+    await ctx.send(embed=embed)
 
 def setup(bot : commands.Bot):
   bot.add_cog(HelpCommand(bot))
