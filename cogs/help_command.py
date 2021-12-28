@@ -18,7 +18,7 @@ class HelpCommand(commands.Cog):
     cmd = ' '.join(args)
     if cmd.strip() == '':
       if ctx.guild:
-        message :Message = await ctx.reply(embed=embeds_.list_all_commands())
+        message :Message = await ctx.send(embed=embeds_.list_all_commands())
         await message.add_reaction(emoji='<:more:920566095864279090>')
         def check(r : Reaction, u: User):
           return str(r.emoji) == '<:more:920566095864279090>' and u == ctx.author
@@ -30,13 +30,13 @@ class HelpCommand(commands.Cog):
         except Exception as e:
           await ctx.send(embed=embeds_.error_embed(str(e)))
       else:
-        message :Message = await ctx.reply(embed=embeds_.list_all_commands_more())
+        message :Message = await ctx.send(embed=embeds_.list_all_commands_more())
       return
     for n in botinfo.cmds.keys():
       if cmd.strip() == n:
-        await ctx.reply(embed=embeds_.help_command(n))
+        await ctx.send(embed=embeds_.help_command(n))
         return
-    await ctx.reply(embed=embeds_.command_not_found_embed(cmd))
+    await ctx.send(embed=embeds_.command_not_found_embed(cmd))
   @commands.command(aliases=['about'])
   async def botinfo(self, ctx: Context):
     embed = embeds_.bot_info(len(self.bot.guilds))

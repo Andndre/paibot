@@ -33,12 +33,12 @@ class MathCommands(commands.Cog):
     try:
       result, err = calc_(arg)
       if err:
-        await ctx.reply(embed=embeds_.error_embed(result))
+        await ctx.send(embed=embeds_.error_embed(result))
         return
       em = Embed()
       em.add_field(name='Result:',value=result, inline=False)
       em.colour = Colour.blurple()
-      msg : Message = await ctx.reply(embed=em)
+      msg : Message = await ctx.send(embed=em)
 
       def check(before, after):
         return after == ctx.message
@@ -50,13 +50,13 @@ class MathCommands(commands.Cog):
     except Exception as e:
       await msg.delete()
       traceback.print_exc()
-      await ctx.reply(embed=embeds_.error_embed(f'Something is wrong with your input\ntry: remove unnecessary brackets\n\n"{str(e)}"\n\nevent stopped'))
+      await ctx.send(embed=embeds_.error_embed(f'Something is wrong with your input\ntry: remove unnecessary brackets\n\n"{str(e)}"\n\nevent stopped'))
       return
   
   @commands.command(aliases=['math_quiz'])
   async def mquiz(self, ctx: Context):
     quiz, ans = generate_quiz()
-    message = await ctx.reply(
+    message = await ctx.send(
       embed=Embed(
         title='Quiz', 
         description=
@@ -79,9 +79,9 @@ f'''
     try:
       m : Message = await self.bot.wait_for('message', check = check, timeout = 60)
       if m.content.lower() == ans:
-        await m.reply('Congratulations, your answer is correct!')
+        await m.send('Congratulations, your answer is correct!')
       else:
-        await m.reply(f'Wrong, correct answer is {ans.upper()}')
+        await m.send(f'Wrong, correct answer is {ans.upper()}')
     except asyncio.TimeoutError:
       await ctx.send("Sorry, you didn't reply in time!")
 

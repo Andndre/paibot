@@ -1,6 +1,5 @@
 import asyncio
 from random import randint
-from discord import embeds, user
 from discord.ext import commands
 from discord.ext.commands.context import Context
 from discord.member import Member
@@ -15,11 +14,11 @@ class OtherCommands(commands.Cog):
   @commands.command(aliases=['hello'])
   async def hi(self, ctx: Context):
     author : Member = ctx.author
-    await ctx.reply(f'Hello to you too {author.mention}👋')
+    await ctx.send(f'Hello to you too {author.mention}👋')
   
   @commands.command(aliases=['rock_paper_scissors'])
   async def rps(self, ctx: Context):
-    message = await ctx.reply('rock(r)/paper(p)/scissors(s)')
+    message = await ctx.send('rock(r)/paper(p)/scissors(s)')
 
     def check(m: Message):
       return m.author == ctx.author and m.content.lower() in ['rock', 'r', 'paper', 'p', 'scissors', 's']
@@ -55,5 +54,3 @@ class OtherCommands(commands.Cog):
 
 def setup(bot : commands.Bot):
   bot.add_cog(OtherCommands(bot))
-
-# 1-magic-shell

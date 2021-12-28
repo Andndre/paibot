@@ -14,18 +14,20 @@ def list_all_commands():
   return em
 
 def list_all_commands_more():
-  em = embeds.Embed(title='Commands', description=f'All my commands')
+  em = embeds.Embed(title='Commands', description=f'Use `_help <command>` to show more informations about a specific command')
   for k,v in cmds.items():
-    em.add_field(name=k, value=f'```\n{v[1]}\n```', inline=False)
+    em.add_field(name=k, value=f'```\ndescription: {v["description"]}\n\nusage: {v["usage"]}\n```', inline=False)
   em.colour = Colour.blurple()
   return em
 
 def help_command(cmd):
   em = embeds.Embed(title=f'Command: {cmd}') 
-  em.add_field(name='description:', value=f'```\n{cmds[cmd][1]}\n```', inline=False)
-  if cmds[cmd][0] != '':
-    em.add_field(name='aliases:', value=f'```\n{cmds[cmd][0]}\n```')
-  em.add_field(name='usage:', value=f'```\n{cmds[cmd][2]}\n```',inline=True)
+  em.add_field(name='description:', value=f'```\n{cmds[cmd]["description"]}\n```', inline=False)
+  if cmds[cmd]["aliases"] != '':
+    em.add_field(name='aliases:', value=f'```\n{cmds[cmd]["aliases"]}\n```')
+  em.add_field(name='usage:', value=f'```\n{cmds[cmd]["usage"]}\n```',inline=True)
+  if cmds[cmd]["example"] != '':
+    em.add_field(name='example:', value=f'```\n{cmds[cmd]["example"]}\n```')
   em.colour = Colour.blurple()
   return em
 
@@ -46,3 +48,9 @@ def bot_info(guilds):
   embed.set_footer(text='Use _help for usage!')
   embed.colour = Colour.blurple()
   return embed
+
+def result_embed(res):
+  em = embeds.Embed()
+  em.add_field(name='Result:',value=res, inline=False)
+  em.colour = Colour.blurple()
+  return em

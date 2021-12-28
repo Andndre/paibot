@@ -17,6 +17,7 @@ async def on_ready():
 bot.load_extension('cogs.help_command')
 bot.load_extension('cogs.math_commands')
 bot.load_extension('cogs.other_commands')
+bot.load_extension('cogs.string_manipulation_cmds')
 
 bot.run(os.environ.get('TOKEN'))
 # bot.run(os.getenv('TOKEN'))
