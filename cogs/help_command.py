@@ -1,8 +1,7 @@
 import asyncio
 
 from config import botinfo, embeds_
-from discord import embeds
-from discord.colour import Colour
+from config.botinfo import cmds
 from discord.abc import User
 from discord.ext import commands
 from discord.ext.commands.context import Context
@@ -13,7 +12,7 @@ class HelpCommand(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.command(name='help')
+  @commands.command(aliases=cmds['help']['aliases'])
   async def help(self, ctx: Context, *args):
     cmd = ' '.join(args)
     if cmd.strip() == '':
@@ -33,11 +32,11 @@ class HelpCommand(commands.Cog):
         message :Message = await ctx.send(embed=embeds_.list_all_commands_more())
       return
     for n in botinfo.cmds.keys():
-      if cmd.strip() == n:
+      if cmd.strip() == n or cmd.strip() in cmds[n]['aliases']:
         await ctx.send(embed=embeds_.help_command(n))
         return
-    await ctx.send(embed=embeds_.command_not_found_embed(cmd))
-  @commands.command(aliases=['about'])
+    await ctx.send(embed=embeds_.error_embed(f'There is no command called {cmd}\n\nuse `_help` to list all my commands!'))
+  @commands.command(aliases=cmds['botinfo']['aliases'])
   async def botinfo(self, ctx: Context):
     embed = embeds_.bot_info(len(self.bot.guilds))
     await ctx.send(embed=embed)

@@ -5,7 +5,7 @@ from config.botinfo import *
 
 
 def list_all_commands():
-  em = embeds.Embed(title='Commands', description=f'All my commands\n\n')
+  em = embeds.Embed(title='Commands', description=f'Use `_help <command>` to show more informations about a specific command\n\n')
   for k in cmds.keys():
     em.description += f'> **{k}**\n'
   em.description += '\nUse `help <command>` to show information about a specific command\n'
@@ -24,15 +24,12 @@ def help_command(cmd):
   em = embeds.Embed(title=f'Command: {cmd}') 
   em.add_field(name='description:', value=f'```\n{cmds[cmd]["description"]}\n```', inline=False)
   if cmds[cmd]["aliases"] != '':
-    em.add_field(name='aliases:', value=f'```\n{cmds[cmd]["aliases"]}\n```')
+    em.add_field(name='aliases:', value=f'```\n{", ".join(cmds[cmd]["aliases"])}\n```')
   em.add_field(name='usage:', value=f'```\n{cmds[cmd]["usage"]}\n```',inline=True)
   if cmds[cmd]["example"] != '':
     em.add_field(name='example:', value=f'```\n{cmds[cmd]["example"]}\n```')
   em.colour = Colour.blurple()
   return em
-
-def command_not_found_embed(cmd):
-  return embeds.Embed(title='Command not found', description=f'There is no command called {cmd}\n\nuse `_help` to list all my commands!', colour=Colour.red())
 
 def error_embed(err):
   return embeds.Embed(title='Error', description=f'```\n{err}\n```', colour=Colour.red())

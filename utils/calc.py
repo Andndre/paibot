@@ -1,6 +1,11 @@
 import re
 from typing import Any, Tuple
 
+from config import embeds_
+from discord.colour import Colour
+from discord.embeds import Embed
+
+
 def calc_(mth : str) -> Tuple[Any, bool]:
   if re.search(r'[^0-9+\-*/:()Xx^.,\s]', mth):
     return 'Accepts only numbers and symbols `+ - * x : / ( ) ^ . ,`', True
@@ -86,3 +91,12 @@ def calc_2(mth : str):
   # after the braces is gone, we finally can 
   # evaluate the result using eval function
   return str(eval(final))
+
+def get_calc_result(mth):
+  result, err = calc_(mth)
+  if err:
+    return embeds_.error_embed(result)
+  em = Embed()
+  em.add_field(name='Result:',value=result, inline=False)
+  em.colour = Colour.blurple()
+  return em

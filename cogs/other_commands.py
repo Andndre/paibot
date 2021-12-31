@@ -1,22 +1,24 @@
 import asyncio
+import traceback
 from random import randint
+
+from config.embeds_ import error_embed
+from config.botinfo import cmds
 from discord.ext import commands
 from discord.ext.commands.context import Context
 from discord.member import Member
 from discord.message import Message
-import traceback
 
-from config.embeds_ import error_embed
 
 class OtherCommands(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-  @commands.command(aliases=['hello'])
+  @commands.command(aliases=cmds['hi']['aliases'])
   async def hi(self, ctx: Context):
     author : Member = ctx.author
     await ctx.send(f'Hello to you too {author.mention}👋')
   
-  @commands.command(aliases=['rock_paper_scissors'])
+  @commands.command(aliases=cmds['rps']['aliases'])
   async def rps(self, ctx: Context):
     message = await ctx.send('rock(r)/paper(p)/scissors(s)')
 
@@ -26,7 +28,7 @@ class OtherCommands(commands.Cog):
       msg_ : Message = await self.bot.wait_for('message', check = check, timeout=60)
       bot_input = ['rock', 'paper', 'scissors'][randint(0, 2)]
 
-      user_input = msg_.content
+      user_input = msg_.content.lower()
 
       msg = ''
       if user_input == 'scissors' or user_input == 's':

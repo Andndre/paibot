@@ -1,32 +1,22 @@
 import asyncio
-import re
 import traceback
 
-from discord import message
-
 from config import embeds_
+from config.botinfo import cmds
 from discord.colour import Colour
 from discord.embeds import Embed
 from discord.ext import commands
 from discord.ext.commands import context
 from discord.ext.commands.context import Context
 from discord.message import Message
-from utils.calc import calc_
+from utils.calc import calc_, get_calc_result
 from utils.mquiz import generate_quiz
 
-def get_calc_result(mth):
-  result, err = calc_(mth)
-  if err:
-    return embeds_.error_embed(result)
-  em = Embed()
-  em.add_field(name='Result:',value=result, inline=False)
-  em.colour = Colour.blurple()
-  return em
 
 class MathCommands(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-  @commands.command(aliases=['calculator'])
+  @commands.command(aliases=cmds['calc']['aliases'])
   async def calc(self, ctx: context.Context, *args):
     arg = (''.join(args))
     result = ''
@@ -53,7 +43,7 @@ class MathCommands(commands.Cog):
       await ctx.send(embed=embeds_.error_embed(f'Something is wrong with your input\ntry: remove unnecessary brackets\n\n"{str(e)}"\n\nevent stopped'))
       return
   
-  @commands.command(aliases=['math_quiz'])
+  @commands.command(aliases=cmds['mquiz']['aliases'])
   async def mquiz(self, ctx: Context):
     quiz, ans = generate_quiz()
     message = await ctx.send(
@@ -79,9 +69,9 @@ f'''
     try:
       m : Message = await self.bot.wait_for('message', check = check, timeout = 60)
       if m.content.lower() == ans:
-        await m.send('Congratulations, your answer is correct!')
+        await ctx.send('Congratulations, your answer is correct!')
       else:
-        await m.send(f'Wrong, correct answer is {ans.upper()}')
+        await ctx.send(f'Wrong, correct answer is {ans.upper()}')
     except asyncio.TimeoutError:
       await ctx.send("Sorry, you didn't reply in time!")
 

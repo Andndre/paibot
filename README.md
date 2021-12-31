@@ -27,4 +27,5 @@ project structure
 └───utils
        calc.py
        mquiz.py
+       string_manipulation.py
 ```
