@@ -5,7 +5,7 @@ My first [discord.py](https://discordpy.readthedocs.io/en/stable/) bot
 project structure
 ```
 .
-│   .env.sample
+│   .env
 │   .gitignore
 │   invite.txt
 │   main.py
@@ -27,5 +27,5 @@ project structure
 └───utils
        calc.py
        mquiz.py
-       string_manipulation.py
+       string.py
 ```
