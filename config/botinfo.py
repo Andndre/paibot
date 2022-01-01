@@ -60,3 +60,8 @@ cmds = {
     'example': '_caesar_solve k=5 nkrru cuxrj\nOut: hello world'
   }
 }
+
+
+emojis = {
+  'more': '<:more:920566095864279090>'
+}

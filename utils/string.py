@@ -41,11 +41,6 @@ def offset(thestr: str, offset: int) -> str:
   return result
 
 def nth_word(sentence: str, n: int) -> str:
-  res = ''
-  for c in sentence:
-    if c == ' ':
-      n-=1
-      if n == 0: break
-      continue
-    if n == 1: res += c
-  return res
+  splt = sentence.split(' ')
+  if n > len(splt): return ''
+  return splt[n-1]
