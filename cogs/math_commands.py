@@ -62,7 +62,7 @@ f'''
     
     def check(m : Message):
       return (
-        m.content.lower().strip() in ['a','b','c','d'] 
+        m.content.lower().strip() in ['a','b','c','d','e'] 
           and m.channel == ctx.channel 
           and m.author == ctx.author
         )
